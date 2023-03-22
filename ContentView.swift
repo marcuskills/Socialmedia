@@ -6,32 +6,40 @@ struct ContentView: View {
     @State private var isCommentInputVisible: Bool = false
     
     var body: some View {
-        ZStack {
-            Color.black.edgesIgnoringSafeArea(.all)
-            
-            VStack {
-                ControlsContainerView(selectedPage: $selectedPage)
-                    .padding(.top, 30)
-                
-                HStack {
-                    if selectedPage == "For You" {
-                        VideoPlayerView()
-                    } else {
-                        Text("Following Content")
+        NavigationView{
+            ZStack {
+                Color.black.edgesIgnoringSafeArea(.all)
+                VStack {
+                    ControlsContainerView(selectedPage: $selectedPage)
+                        .padding(.top, 30)
+                    
+                    HStack {
+                        if selectedPage == "For You" {
+                            VideoPlayerView()
+                        } else {
+                            Text("Following Content")
+                                .foregroundColor(.white)
+                        }
+                        
+                        RightSideButtonsView(isCommentInputVisible: $isCommentInputVisible)
+                            .padding(.trailing, 10)
+                    }
+                    NavigationLink(destination: UserProfileView()) {
+                        Text("User Profile")
+                            .padding()
                             .foregroundColor(.white)
+                            .background(Color.blue)
+                            .cornerRadius(8)
                     }
                     
-                    RightSideButtonsView(isCommentInputVisible: $isCommentInputVisible)
-                        .padding(.trailing, 10)
+                    Spacer()
+                    BottomButtonsView()
+                        .padding(.bottom, 10)
                 }
                 
-                Spacer()
-                BottomButtonsView()
-                    .padding(.bottom, 10)
-            }
-
-            if isCommentInputVisible {
-                CommentInputView(isCommentInputVisible: $isCommentInputVisible)
+                if isCommentInputVisible {
+                    CommentInputView(isCommentInputVisible: $isCommentInputVisible)
+                }
             }
         }
     }
